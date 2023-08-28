@@ -2,3 +2,21 @@
 #
 # Documentation for this file format can be found in "The Data Catalog"
 # Link: https://docs.kedro.org/en/stable/data/data_catalog.html
+
+"{name}.clean_data":
+  type: pandas.CSVDataSet
+  filepath: data/02_intermediate/clean_{name}.csv 
+  # load_args:
+  #   sep: ','
+  # save_args:
+  #   index: False
+  #   encoding: "utf-8"
+
+"{name}.model_df":
+  type: pandas.CSVDataSet
+  filepath: data/03_primary/model_data_{name}.csv 
+  # load_args:
+  #   sep: ','
+  # save_args:
+  #   index: False
+  #   encoding: "utf-8"

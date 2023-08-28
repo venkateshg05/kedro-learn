@@ -1,0 +1,16 @@
+pipeline_config:
+  development: True 
+  reporting: True
+
+datasets: 
+  dataset-1:
+    name: ds-1
+    type: csv
+    path: data/01_raw/ds-11
+    split: True
+
+  dataset-2:
+    name: ds-2
+    type: xlsx
+    path: data/01_raw/ds-21
+    split: True
