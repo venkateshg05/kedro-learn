@@ -18,7 +18,7 @@ def create_pipeline(**kwargs) -> Pipeline:
     nodes = [
         node(
         clean,
-        inputs=['params:datasets', 'params:clean'],
+        inputs=['input_df', 'params:clean'],
         outputs=['clean_data'],
         name="clean_input"
         ),
@@ -38,14 +38,17 @@ def create_pipeline(**kwargs) -> Pipeline:
     data_prep_pipelines = []
     for name, dataset in datasets.items():
         parameters = {
-            'params:datasets': 'params:datasets.' + name,
             'params:clean': 'params:clean',
             'params:fe': 'params:fe'
+        }
+        inputs = {
+            'input_df' : name
         }
         data_prep_pipelines.append(
             pipeline(
                 pipe = data_prep_pipeline_template,
                 parameters = parameters,
+                inputs = inputs,
                 namespace = name,
             )
         )

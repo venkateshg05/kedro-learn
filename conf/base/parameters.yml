@@ -3,14 +3,8 @@ pipeline_config:
   reporting: True
 
 datasets: 
-  dataset-1:
-    name: ds-1
-    type: csv
-    path: data/01_raw/ds-11
-    split: True
+  ds_11:
+    name: ds_11
 
-  dataset-2:
-    name: ds-2
-    type: xlsx
-    path: data/01_raw/ds-21
-    split: True
+  ds_21:
+    name: ds_21

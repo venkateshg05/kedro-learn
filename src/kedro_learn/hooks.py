@@ -1,5 +1,6 @@
 import pdb, sys, traceback, logging
 from kedro.framework.hooks import hook_impl
+from kedro.io import DataCatalog
 
 class ProjectHooks:
     @property
@@ -18,3 +19,7 @@ class ProjectHooks:
         _, _, traceback_obj = sys.exc_info()
         traceback.print_tb(traceback_obj)
         pdb.post_mortem(traceback_obj)
+
+    @hook_impl
+    def after_catalog_created(self, catalog: DataCatalog) -> None:
+        self._logger.info(catalog.list())

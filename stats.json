@@ -1,1 +1,1 @@
-{"clean_data": {"rows": 2, "columns": 2}, "model_df": {"rows": 2, "columns": 3}}
+{"ds_11": {"rows": 10, "columns": 3, "file_size": 409}, "ds_11.clean_data": {"rows": 10, "columns": 3}, "ds_21": {"rows": 10, "columns": 4, "file_size": 604}, "ds_21.clean_data": {"rows": 10, "columns": 4}, "ds_11.model_df": {"rows": 10, "columns": 4}, "ds_21.model_df": {"rows": 10, "columns": 5}}
