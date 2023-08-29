@@ -13,8 +13,8 @@ from kedro_learn.kedro_util import get_kedro_context
 
 logger = logging.getLogger(__name__)
 
-def create_pipeline(**kwargs) -> Pipeline:
 
+def create_pipeline_template() -> Pipeline:
     nodes = [
         node(
         clean,
@@ -30,7 +30,11 @@ def create_pipeline(**kwargs) -> Pipeline:
         )
     ]
 
-    data_prep_pipeline_template = pipeline(nodes)
+    return pipeline(nodes)
+
+def create_pipeline(**kwargs) -> Pipeline:
+
+    data_prep_pipeline_template = create_pipeline_template()
 
     context = get_kedro_context()
     datasets = context.params['datasets']
@@ -53,5 +57,5 @@ def create_pipeline(**kwargs) -> Pipeline:
             )
         )
 
-    logger.info(sum(data_prep_pipelines))
+    logger.info(f"-*10 \n{sum(data_prep_pipelines)}\n-*10")
     return sum(data_prep_pipelines)
