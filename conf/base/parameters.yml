@@ -3,8 +3,9 @@ pipeline_config:
   reporting: True
 
 datasets: 
-  ds_11:
-    name: ds_11
 
-  ds_21:
-    name: ds_21
+  ds-11_api_added:
+    name: ds-11_api_added
+
+  ds-21_api_added:
+    name: ds-21_api_added

@@ -57,5 +57,5 @@ def create_pipeline(**kwargs) -> Pipeline:
             )
         )
 
-    logger.info(f"-*10 \n{sum(data_prep_pipelines)}\n-*10")
+    logger.info(f"{'-'*10} \n{sum(data_prep_pipelines)}\n{'-'*10}")
     return sum(data_prep_pipelines)
