@@ -12,7 +12,7 @@ class HooksHelperUtil:
         self.aws_key = credentials['dev_s3']['key']
         self.aws_secret = credentials['dev_s3']['secret']
     
-    def generate_input_file_names(self, name):
+    def generate_input_data_catalogs(self, name):
         """
         returns a list of input items 
         to be added to catalog
@@ -60,13 +60,11 @@ class ProjectHooks:
         datasets = self.catalog.load('params:datasets')
         hooksHelperUtil = HooksHelperUtil()
         for name, dataset in datasets.items():
-            generate_kws_list = hooksHelperUtil.generate_input_file_names(name)
+            generate_kws_list = hooksHelperUtil.generate_input_data_catalogs(name)
             for kws in generate_kws_list:
                 self.catalog.add(**kws)
+        _added = set(self.catalog.list()).difference(self.curr_catalog)
         self._logger.info(
-            f"""{'-'*10} 
-            after_catalog_created
-            Added the following to catalog
-            {set(self.catalog.list()).difference(self.curr_catalog)}
+            f"""{'-'*10} \nAdded the following to catalog\n{_added}\
             {'-'*10}"""
             )
