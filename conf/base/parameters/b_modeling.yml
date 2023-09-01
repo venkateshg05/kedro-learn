@@ -3,3 +3,19 @@
 #
 # Documentation for this file format can be found in "Parameters"
 # Link: https://docs.kedro.org/en/0.18.12/kedro_project_setup/configuration.html#parameters
+
+model_input_config:
+  train_test_split: 0.2
+
+nn_config:
+  activation: "relu"
+  activation_final: "linear"
+  dropout: 0.3
+  kernel_initializer: "normal"
+  num_hidden_layers: 3
+
+model_run_config:
+  batch_size: 32
+  epochs: 3
+  verbose: 1
+  validation_split: 0.1

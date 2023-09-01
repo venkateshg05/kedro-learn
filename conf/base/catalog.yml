@@ -22,23 +22,20 @@ _csv: &csv
 _aws: &aws
   credentials: dev_s3 #add your aws cred under dev_s3 tag in local/credentials.yml file
 
-# ds_11:
-#   <<: *csv
-#   filepath: s3://kedro-model-outputs/data/01_raw/ds-11.csv 
-#   <<: *aws  
+ds-11:
+  <<: *csv
+  filepath: data/01_raw/ds-11.csv 
 
-# ds_21:
+ds-21:
+  <<: *csv
+  filepath: data/01_raw/ds-21.csv 
+
+# "{name}.clean_data":
 #   <<: *csv
-#   filepath: s3://kedro-model-outputs/data/01_raw/ds-21.csv 
+#   filepath: s3://kedro-model-outputs/data/02_intermediate/clean_{name}.csv  
 #   <<: *aws
 
-
-"{name}.clean_data":
-  <<: *csv
-  filepath: s3://kedro-model-outputs/data/02_intermediate/clean_{name}.csv  
-  <<: *aws
-
-"{name}.model_df":
-  <<: *csv
-  filepath: s3://kedro-model-outputs/data/05_model_input/model_data_{name}.csv  
-  <<: *aws
+# "{name}.model_df":
+#   <<: *csv
+#   filepath: s3://kedro-model-outputs/data/05_model_input/model_data_{name}.csv  
+#   <<: *aws

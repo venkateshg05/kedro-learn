@@ -53,18 +53,18 @@ class ProjectHooks:
         traceback.print_tb(traceback_obj)
         pdb.post_mortem(traceback_obj)
 
-    @hook_impl
-    def after_catalog_created(self, catalog: DataCatalog) -> None:
-        self.curr_catalog = catalog.list()
-        self.catalog = catalog
-        datasets = self.catalog.load('params:datasets')
-        hooksHelperUtil = HooksHelperUtil()
-        for name, dataset in datasets.items():
-            generate_kws_list = hooksHelperUtil.generate_input_data_catalogs(name)
-            for kws in generate_kws_list:
-                self.catalog.add(**kws)
-        _added = set(self.catalog.list()).difference(self.curr_catalog)
-        self._logger.info(
-            f"""{'-'*10} \nAdded the following to catalog\n{_added}\
-            {'-'*10}"""
-            )
+    # @hook_impl
+    # def after_catalog_created(self, catalog: DataCatalog) -> None:
+    #     self.curr_catalog = catalog.list()
+    #     self.catalog = catalog
+    #     datasets = self.catalog.load('params:datasets')
+    #     hooksHelperUtil = HooksHelperUtil()
+    #     for name, dataset in datasets.items():
+    #         generate_kws_list = hooksHelperUtil.generate_input_data_catalogs(name)
+    #         for kws in generate_kws_list:
+    #             self.catalog.add(**kws)
+    #     _added = set(self.catalog.list()).difference(self.curr_catalog)
+    #     self._logger.info(
+    #         f"""{'-'*10} \nAdded the following to catalog\n{_added}\
+    #         {'-'*10}"""
+    #         )
