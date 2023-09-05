@@ -15,7 +15,7 @@ def split_data(model_df, model_input_config):
     X_train, X_test, y_train, y_test = train_test_split(
         model_df.iloc[:, 0:1],
         model_df.iloc[:, -1],
-        model_input_config['train_test_split']
+        test_size=model_input_config['train_test_split']
     )
     return X_train, X_test, y_train, y_test
 
@@ -64,4 +64,4 @@ def build_model(
         validation_split=model_run_config['validation_split']
     )
 
-    return NN_model
+    return [NN_model]

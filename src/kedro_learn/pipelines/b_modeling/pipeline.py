@@ -40,13 +40,19 @@ def create_pipeline(**kwargs) -> Pipeline:
     
     data_prep_pipelines = []
     for name, dataset in datasets.items():
-        inputs = {
-            'input_df' : name
+        # inputs = {
+        #     'model_df' : f"{name}.model_df"
+        # }
+        parameters = {
+            'params:model_input_config': 'params:model_input_config',
+            'params:nn_config': 'params:nn_config',
+            'params:model_run_config':'params:model_run_config'
         }
         data_prep_pipelines.append(
             pipeline(
                 pipe = data_prep_pipeline_template,
-                inputs = inputs,
+                # inputs = inputs,
+                parameters = parameters,
                 namespace = name,
             )
         )

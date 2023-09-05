@@ -1,33 +1,46 @@
-import os, boto3, yaml, typing
+import os, boto3, logging
 import numpy as np
 
 from pathlib import Path, PurePosixPath
 from kedro.io import AbstractDataSet
 
-from tensorflow.keras import Model
 from tensorflow.keras.models import load_model
 
 class S3ModelDataset(AbstractDataSet):
-    def __init__(self, table):
-        cred = "../conf/local/credentials.yml"
-        with open(cred, 'r') as cred_file:
-            creds = yaml.safe_load(cred_file)
-        
+    @property
+    def _logger(self):
+        return logging.getLogger(__name__)
+    
+    def __init__(self, filepath, credentials, fs_args):
+        self.fs_args = fs_args
+        self.s3_filepath = f"{'/'.join(filepath.split('/')[3:])}.{self.fs_args['save_format']}"
+        self.local_filepath = os.path.join(
+            'data', '06_models', f"{filepath.split('/')[-1]}.{self.fs_args['save_format']}"
+            )
         self.s3 = boto3.Session(
-            aws_access_key_id=creds['dev_s3']['key'],
-            aws_secret_access_key=creds['dev_s3']['secret'],
-            region_name=creds['dev_s3']['default-region'],
-        ).resource('s3')
+            aws_access_key_id=credentials['key'],
+            aws_secret_access_key=credentials['secret'],
+            region_name=credentials['default-region'],
+        ).client('s3')
         
     
     def _load(self) -> np.ndarray:
-        return np.load(self._filepath)
+        return load_model(self.local_filepath)
     
-    def _save(self, arr: np.ndarray) -> None:
-        np.save(self._filepath, arr)
+    def _save(self, model) -> None:
+        model.save(
+            PurePosixPath(self.local_filepath), 
+            # save_format=self.fs_args['save_format']
+            )
+        response = self.s3.upload_file(
+            self.local_filepath,
+            self.fs_args['s3_bucket'],
+            self.s3_filepath
+            )
+        self._logger.info(str(response))
     
     def _exists(self):
         return Path(self._filepath.as_posix()).exists()
 
     def _describe(self):
-        return dict( filepath = self._filepath, )
+        return dict( filepath = self.local_filepath, )
