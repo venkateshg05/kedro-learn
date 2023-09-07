@@ -44,3 +44,36 @@ class S3ModelDataset(AbstractDataSet):
 
     def _describe(self):
         return dict( filepath = self.local_filepath, )
+    
+class DDBModelMetrics(AbstractDataSet):
+    @property
+    def _logger(self):
+        return logging.getLogger(__name__)
+    
+    def __init__(self, tablename, credentials):
+        self.ddb_table = boto3.Session(
+            aws_access_key_id=credentials['key'],
+            aws_secret_access_key=credentials['secret'],
+            region_name=credentials['default-region'],
+        ).resource('dynamodb')\
+        .Table(tablename)
+        
+    
+    def _load(self) -> np.ndarray:
+        return self.ddb_table.table_name
+    
+    def _save(self, item) -> None:
+        response = self.ddb_table.put_item(
+            Item=item
+        )
+        self._logger.info(str(response))
+    
+    def _exists(self):
+        return self.ddb_table.table_status == 'ACTIVE'
+
+    def _describe(self):
+        return dict(
+            tablename = self.ddb_table.table_name,
+            status = self.ddb_table.table_status,
+            schema = self.ddb_table.key_schema
+        )

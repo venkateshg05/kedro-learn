@@ -51,3 +51,8 @@ ds-21:
     s3_bucket: kedro-model-outputs
     save_format: keras
   <<: *aws
+
+"{name}.model_perf_metrics":
+  type: kedro_learn.datasets.DDBModelMetrics
+  tablename: model-performance-metrics
+  <<: *aws
