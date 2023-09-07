@@ -66,7 +66,10 @@ class DDBModelMetrics(AbstractDataSet):
         response = self.ddb_table.put_item(
             Item=item
         )
-        self._logger.info(str(response))
+        self._logger.info(
+            f"HTTPStatusCode: {str(response['HTTPStatusCode'])}\n"
+            f"Date: {str(response['HTTPHeaders']['Date'])}\n"
+            )
     
     def _exists(self):
         return self.ddb_table.table_status == 'ACTIVE'
